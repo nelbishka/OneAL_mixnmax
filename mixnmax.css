@@ -1,0 +1,337 @@
+@font-face {
+    font-family: 'coText';
+    src: url(./CoText.ttf);
+}
+
+.nebula-custom-font { 
+    font-family: "coText", Tahoma;
+}
+
+.picture{
+    width: 100%;
+}
+
+.border-white {
+   border-bottom-width: 6px;
+}
+
+.banner{
+    position: relative;
+    width: 100%;
+}
+
+.bannertext{
+    position: absolute;
+    width: 35%;
+    top: 40%;
+    left: 5%;
+    color: #fff;
+}
+
+.bannertext h1{
+    font-size: xx-large;
+}
+
+.snowflake1{
+    position: absolute;
+    z-index: -1;
+    left: 200px;
+    top: 710px;
+    height: 350px;
+}
+
+.snowflake2{
+    position: absolute;
+    z-index: -1;
+    right: 0px;
+    top: 1250px;
+    height: 600px;
+}
+
+.snowflake3{
+    position: absolute;
+    z-index: -1;
+    left: 350px;
+    top: 1250px;
+}
+
+.candlestick{
+    margin-left: 0px;
+    margin-top: 0px;
+    width: 22%;
+    height: 30px;
+    position: absolute;
+    z-index: -500;
+    border-radius: 20px;
+}
+
+#sticker1 {
+    top: 44px;
+    margin-left: -15px;
+    background-image: none !important;
+}
+
+.dsc-sticker1{
+    position:absolute;
+    margin-left: -5px;
+    top: 55px;
+    z-index: 1000;
+    cursor:auto;
+}   
+
+.dsc-sticker2{
+    position:absolute;
+    margin-left: 50px;
+    top: 0;
+    cursor:auto;
+    display: none;
+}
+
+.nebula-form-bg {
+    background: url('./FormBg.png'), #F0EBFC;
+    background-size: 80%;
+    background-position: 50% 55%;
+    background-repeat: no-repeat;
+    width: 100%
+}
+
+.nebula-mobile-plan-position {
+    position: absolute;
+    left: calc(50% - 32px);
+    border: 4px solid #F5B01A;
+    background-image: none;
+    background-color: #652D90;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 50;
+}
+
+.nebula-internet-plan-position {
+    position: absolute;
+    left: calc(50% - 32px);
+    border: 4px solid #F5B01A;
+    background-color: #652D90;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 50;
+}
+
+.nebula-tring-plan-position {
+    border: 4px solid #F5B01A;
+    background-color: #652D90;
+    position: absolute;
+    left: calc(25% - 32px);
+}
+
+.nebula-digitalb-plan-position {
+    position: absolute;
+    left: calc(50% - 32px);
+    background-color: #652D90;
+    border: 4px solid #F5B01A;
+}
+
+.nebula-selected-card {
+    color: #652D90;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    position: absolute;
+    background: #F5B01A;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    width: 42%;
+    left: 30%;
+    z-index: 50;
+    transform: scale(0.9);
+    transition: all;
+    transition-duration: 500ms;
+}
+
+.nebula-selected-card p {
+    color: #652D90;
+}
+
+.nebula-card-one {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    position: absolute;
+    background: #845EA5;
+    color: white;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    width: 42%;
+    z-index: 30;
+    transform: scale(0.7);
+    transition: all;
+    transition-duration: 500ms;
+}
+
+.nebula-card-one p {
+    color: #F5B01A;
+}
+
+.nebula-card-two {
+    color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    position: absolute;
+    background:#662F8E;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    width: 42%;
+    z-index: 20;
+    transform: scale(0.5);
+    transition: all;
+    transition-duration: 500ms;
+}
+
+.nebula-card-two p {
+    color: #F5B01A;
+}
+
+.footer{
+    background-image: url("footer.png");
+    flex-wrap: wrap;
+    background-size: cover;
+}
+
+.footer-column {
+    margin-top: 100px;
+    margin-bottom: 70px;
+    display: block;
+    padding: 0px 15px 24px 15px;
+    justify-content: space-around;
+}
+
+.footer-column > h3 {
+    font-weight: bold;
+    color:#662F8E;
+    margin-bottom: 35px;
+}
+
+.footer-column >ul>li {
+    font-size: 20px;
+    color:#662F8E;
+    margin-bottom: 10px;
+}
+
+.footer-column >ul>li:hover {
+    color: #F5B01A;
+}
+
+.copyright{
+    background-color: #652D90;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: space-between;  
+    width: 100%;
+    flex-wrap: wrap;
+    padding: 0 50px;
+}
+
+.copyright > p{
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: small;
+}
+
+.social-icons{
+    display: flex;
+    
+}
+
+.social-icons a{
+    background-color: #F5B01A;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+}
+
+.social-icons i{
+    display: flex;
+    justify-content: center;
+    margin-top: 7px;
+}
+
+@media screen and (max-width: 600px) {
+    .nebula-mobile-plan-position {
+        left: calc(50% - 16px);
+        border: 2px solid #F5B01A;
+    }
+    .nebula-internet-plan-position {
+        left: calc(50% - 16px);
+        border: 2px solid #F5B01A;
+    }
+    .nebula-tring-plan-position {
+        left: calc(25% - 16px);
+        border: 2px solid #F5B01A;
+    }
+    .nebula-digitalb-plan-position {
+        left: calc(50% - 16px);
+        border: 2px solid #F5B01A;
+    }
+    .nebula-form-bg {
+        background: #F0EBFC;
+        width: 100%
+    }
+    .copyright{
+        display: flex;
+        justify-content: center;
+    }
+
+    .footer {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+      }
+
+    .footer-column{
+        margin-top: 0;
+        width: 80%;
+        margin-bottom: 20px;
+    }
+
+    .bannertext h1{
+        line-height: 100% !important;
+        font-size: x-small !important;
+    }
+}
+
+@media screen and (max-width:1085px){
+    .candlestick{
+        display: none;
+    }
+}
+
+@media screen and (max-width:1135px){
+    .bannertext h1{
+        font-size: large;
+    }
+}
+
+@media screen and (max-width:765px){
+    .dsc-sticker1{
+        display: none !important;
+    }
+
+    .bannertext h1{
+        line-height: 100% !important;
+        font-size: medium;
+    }
+}
+
+@media screen and (max-width:365px){
+    .bannertext h1{
+        font-size: 7px !important;
+    }   
+}
+
+@media screen and (min-width:1810px){
+    .bannertext h1{
+        font-size: 50px !important;
+        line-height: normal;
+    }   
+}

@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="./mixnmax.css?4">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mix & Max</title>
+    <link rel="icon" type="image/png" href="https://promo.one.al/md/img/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://kit.fontawesome.com/3cf8248f36.js" crossorigin="anonymous"></script>
+    <script>
+        const mobileCardStyles = [
+            { left: '-5%', class: 'nebula-card-two'},
+            { left: '10%', class: 'nebula-card-one'},
+            { left: '30%', class: 'nebula-selected-card'},
+            { left: '50%', class: 'nebula-card-one'},
+            { left: '65%', class: 'nebula-card-two'}
+        ]
+
+        const digitalbMobileCardStyles = mobileCardStyles.slice(1, 4);
+
+        let mobilePlans = [
+            {id: 'oneGoPro', title: 'One Go Pro', position: 10, color: '#D3C8E2', price: 800, content: './oneGoPro.png', hoverContent: './oneGoProPlan.png', currentMobileCardOrder: 1},
+            {id: 'oneSmartPro', title: 'One Smart Pro', position: 30, color: '#BCA9D0', price: 1300, content: './oneSmartPro.png', hoverContent: './oneSmartProPlan.png', currentMobileCardOrder: 2},
+            {id: 'oneExtraPro', title: 'One Extra Pro', position: 50, color: '#9575B2', price: 1600, content: './oneExtraPro.png', hoverContent: './oneExtraProPlan.png', currentMobileCardOrder: 3},
+            {id: 'oneUltra50', title: 'One Ultra 50+', position: 70, color: '#845EA5', price: 1800, content: './oneUltra50.png', hoverContent: './oneUltra50Plan.png', currentMobileCardOrder: 4},
+            {id: 'oneUltraMax', title: 'One Ultra Max', position: 90, color: '#662F8E', price: 2400, content: './oneUltraMax.png', hoverContent: './oneUltraMaxPlan.png', currentMobileCardOrder: 5},
+        ]
+
+        let internetPlans = [
+            {id: 'oneUltraFiber60mb', title: 'One Ultra Fiber 60 Mbps', position: 10, color: '#D3C8E2', price: 1300, content: './OneUltraFiber.png', hoverContent: './OneUltraFiber60.png', currentMobileCardOrder: 1},
+            {id: 'oneUltraFiber100mb', title: 'One Ultra Fiber 100 Mbps', position: 30, color: '#BCA9D0', price: 1600, content: './OneUltraFiber.png', hoverContent: './OneUltraFiber100.png', currentMobileCardOrder: 2},
+            {id: 'oneUltraFiber300mb', title: 'One Ultra Fiber 300 Mbps', position: 50, color: '#9575B2', price: 2200, content: './OneUltraFiber.png', hoverContent: './OneUltraFiber300.png', currentMobileCardOrder: 3},
+            {id: 'oneUltraFiber1gb', title: 'One Ultra Fiber 1 Gbps', position: 70, color: '#845EA5', price: 4800, content: './OneUltraFiber.png', hoverContent: './OneUltraFiber1.png', currentMobileCardOrder: 4},
+            {id: 'oneHomenetMix', title: 'One HomeNet', position: 90, color: '#662F8E', price: 1300, content: './OneUltraFiber.png', hoverContent: './OneHomeNet.png', currentMobileCardOrder: 5},
+        ]
+
+        let tringPlans = [
+            {id: 'tringBase', title: 'Tring bazë', position: 25, color: '#D3C8E2', price: 600, content: 'Tring <br/> Bazë', hoverContent: 'Shiko Kanalet', channels: "INFO, Vizion+ HD, TVSH, RTV Ora, FAX News, ABC News, Euronews Albania, Living, JollyHD, News 24, SMILE, Kanali7, CLICK, Tring Original, Tring Shqip, TTring, Tip TV, Kids, Bubble TV, Tring Family HD, Action HD, Tring Life, Fantasy, Kanal D Drama, Euro Channel, TV World, English Club, BBF, Club TV, RTK, KTV, RTV 21, RTV 21 Plus, Tsport News, Super Tennis, RAI 1, RAI 2, Rete 4, Canale 5, Italia 1, La 7, EuroStar, Euro D, ANT1, TRT World, Hayat Plus, France 24 EN, TV5 Monde, Super RTL, RTL 2, Report TV Tring, EuroNews, BBC WORLD, CNN, Deutche Welle, Al Jazeera Balkan, Mediaset Italia, Food Network, Cartoon Network, Desire, Adria Net, ORA News, Shenja TV, HITV, 3 Plus, TV Johaniter Tring, Balkanika TV, Apollon TV, Syri TV, Folklor TVe, RTL 102.5, RT Doc, VH 1, TVE, ERT World, Elrodi, ATV"},
+            {id: 'tringFull', title: 'Tring e plotë', position: 75, color: '#9575B2', price: 900, content: 'Tring <br/> e Plotë', hoverContent: 'Shiko Kanalet', channels: "INFO, Vizion+ HD, TVSH, RTV Ora, FAX News, ABC News, Euronews, Albania Living, JollyHD,	News 24, SMILE, Muse, Kanali7, Tring Novelas, CLICK, Tring Original, Tring Shqip, TTring, Tip, TVKids, Bubble TV, Tring Family HD, Tring Super, Action HD, Tring Life, Tring Comedy, Fantasy, Kanal D Drama, Euro Channel, Classic HD, Collection HD, Tring History, Tring Planet, TVWorld, Travel Channel, Real Time, English Club, RTSH Film,	RTSH Muzik,	BBF	Folk Plus, Club TV, RTK, KTV, RTV 21, RTV 21 Plus, TsportNews, SuperTennis,	RAI 1, RAI 2, RAI 3, Rai Gulp, Rete4, Canale 5,	Italia 1, Rai News 24, Rai Storia, La 7, NTV, ATV, Avrupa, EuroStar, Euro D, ANT1, BN Music, TRT World, Hayat Plus,	Hayat Folk,	France 24 EN, France 24 FR,	TV5 Monde, Arte HD, RTL, Super RTL,	RTL 2, RTL Nitro, Vox ID, DAS Erste, ZDF HD, Show tv, Report TV, EuroNews, CNBC Europe,	CNN, Deutche Welle, Al Jazeera INT,	Al Jazeera Balkan, Fashion Europe HD, Fashion ONE, Mediaset Italia, Food Network, Luxe TV, Cartoon Network, Boomerang, Bunga Bunga,	Desire,	Bizarre, Adria Net,	Zjarr Tv, ORA News,	Shenja TV, Neser tv, HITV, RTSH Sport, 3 Plus, TV Johaniter, Tring Balkanika TV, Apollon TV, Syri TV, Folklor TV, RTL 102.5, RT Doc, VH 1, TVE ERT World, Elrodi"},
+        ]
+
+        let digitalbPlans = [
+            {id: 'dgaStarter', title: 'Digitalb Fillestare', position: 17, color: '#D3C8E2', price: 600, content: 'DGA <br/> Fillestare', hoverContent: 'Shiko Kanalet', currentMobileCardOrder: 1, channels: "INFO 1, Top Channel HD 2, Top News 3, T HD 4, STINET 5, My Music 6, Bang Bang 7, Film Aksion 8, Fox Life 9, TV Klan HD 10, ABC News 11, EuroNews Albania 12, STAR TV 13, Klan News 14, News 24 15, MCN TV 16, SCAN TV 17, Report 18, Klan Plus 19, ATV 20, RTV 21 21, KTV 22, RTK S 23, First TV 24, Exp Natyra 25, Klan Music 26, Melody TV 27, Supersonic TV 28, STV Folk 29, Raiuno 30, Raidue 31, Canale5 32, Italia 1 33, Zico TV 34, T7 35, Zjarr tv 37, Syri TV 38, RTV-21 M 39, Fax News 41, Klan Macedonia 42, Ora News 43, RTV Ora 44, A2 CNN 45, Alpha TV 46, Skai 47, Euronews 48, CNN 49, BBC 50, Fashion TV 51"},
+            {id: 'dgaFamily', title: 'Digitalb Familjare', position: 50, color: '#9575B2', price: 1000, content: 'DGA <br/> Familjare', hoverContent: 'Shiko Kanalet', currentMobileCardOrder: 2, channels: "INFO 1, Top Channel HD 2, Top News 3, T HD 4, STINET 5, My Music 6, Bang Bang 7, Cufo Tv 8, Junior TV 9, Baby TV 10, TDC 11, GOLD HD 12, MAX HD 13, Family Channel HD 14, Film Autor 15, Film Hits 16, Film Thriller 17, Film Drame 18, Film Aksion 19, Film Komedi 20, Euro Film 21, Fox 22, ABC News 23, EuroNews Albania 24, MCN TV 25, News 24 26, Report 27, TV Klan HD 28, Klan News 29 FAX News 30, Exp Shkence 31, Exp Histori 32, Exp Natyra 33, Travel Channel HD 34, Melody TV 35, Raiuno 36, Raidue 37, Canale5 38, Italia 1 39, Alpha TV 40, Skai 41, Fashion TV 42, Euronews 43, CNN 44, Ora News 45, RTV Ora 46, A2 CNN 47, BBC 48, Dorcel HD 50, Nat Geo HD 52, 24 Kitchen 53, Supersonic TV 55, STV Folk 56, Syri TV 57, Zjarr tv 58, Klan Plus 59, Klan Macedonia 60, Klan Music 61, SCAN TV 62, RTV 21 63, KTV 64, RTK S 65, RTV-21 M 66, T7 67, STAR TV 68, ATV 69, Zico TV 70, First TV 71"},
+            {id: 'dgaPremium', title: 'Digitalb Premium', position: 83, color: '#845EA5', price: 2400, content: 'DGA <br/> Premium', hoverContent: 'Shiko Kanalet', currentMobileCardOrder: 3, channels: "INFO 1, Top Channel HD 2, Top News 3, T HD 4, STINET 5, My Music 6, Bang Bang 7, Cufo Tv 8, Junior TV 9, Baby TV 10, TDC 11, GOLD HD 12, MAX HD 13, Family Channel HD 14, Film Autor 15, Film Hits 16, Euro Film 17, Film Thriller 18, Film Drame 19, Film Aksion 20, Film Komedi 21, Fox 22, Fox Life 23, FOX Movies 26, FilmBox Premium HD 27, ABC News 28, EuroNews Albania 29, STAR TV 30, MCN TV 31, News 24 32, SCAN TV 33, Report 34, TV Klan HD 35, Klan News 36, ATV 37, RTV 21 38, KTV 39, RTK S 40, FAX News 41, Zico TV 42, First TV 43, Ora News 44, RTV Ora 45, A2 CNN 46, T7 48, Exp Shkence 49, Exp Histori 50, Exp Natyra 51, DocuBox HD 52, Nat Geo HD 53, Travel Channel HD 54, 24 Kitchen 55, Animal Planet HD 56, Discovery Channel 57, Investigation Discovery 58, TLC Discovery 59, Discovery science HD 60, Turbo Xtra HD 61, FightBox HD 62, Supersport 1 HD 63, Supersport 2 HD 64, Supersport 3 HD 65, Supersport 4 HD 66, Supersport 5 HD 67, Supersport 6 HD 68, Supersport 7 HD 69, Eurosport HD 70, Eurosport 2 HD 71, Fast FunBox 72, Melody TV 74, Supersonic TV 75, STV Folk 76, Klan Music 77, Raiuno 78, Raidue 79, Canale5 80, Italia 1 81, Alpha TV 82, Skai 83, Fashion TV 84, Euronews 85, CNN 86, BBC 87, X1 88, Playboy HD 89, Dorcel HD 91, Syri TV 92, RTV-21"}
+        ]
+
+        let touchstartX = 0;
+        let touchendX = 0;
+
+        let currentMobilePlan = mobilePlans[2];
+        let currentInternetPlan = internetPlans[2];
+        let currentTringPlan = tringPlans[0];
+        let currentDigitalbPlan = digitalbPlans[1];
+        let currentTVPlan = null;
+        let promoPrice = null;
+
+        function rotateLeft(array, rotations) {
+            return array.slice(rotations).concat(array.slice(0, rotations));
+        }
+
+        function rotateRight(array, rotations) {
+            return array.slice(array.length - rotations).concat(array.slice(0, array.length - rotations));
+        }
+
+        function calculateTotal() {
+            realPrice = currentMobilePlan.price
+            promoPrice = realPrice
+
+            if (currentInternetPlan.id == 'oneUltraFiber300mb' || currentInternetPlan.id == 'oneUltraFiber1gb') {
+                realPrice += currentInternetPlan.price
+                promoPrice += 0.5*currentInternetPlan.price
+            }else{
+                realPrice += currentInternetPlan.price
+                promoPrice += 0.7*currentInternetPlan.price
+            }
+
+            if (currentTVPlan) {
+                realPrice += currentTVPlan.price
+                promoPrice += 0.9*currentTVPlan.price
+            }
+
+            document.getElementById('promoPrice').innerHTML=promoPrice
+            document.getElementById('price').innerHTML=realPrice
+            document.getElementById('savings').innerHTML=realPrice-promoPrice
+        }
+
+        function updateInternetPlanTabSelection(id) {
+            if (id === 'oneHomenetMix') {
+                document.getElementById('oneFiber').style.borderColor = 'transparent'
+                document.getElementById('oneHomeNet').style.borderColor = '#F5B01A'
+            } else {
+                document.getElementById('oneFiber').style.borderColor = '#F5B01A'
+                document.getElementById('oneHomeNet').style.borderColor = 'transparent'
+            }
+        }
+
+        function updateMobilePlanTabSelection(id) {
+            if (id === 'oneGoPro' || id === 'oneSmartPro') {
+                document.getElementById('oneUnlimited').style.borderColor = '#F5B01A'
+                document.getElementById('oneUltraUnlimited').style.borderColor = 'transparent'
+            } else {
+                document.getElementById('oneUnlimited').style.borderColor = 'transparent'
+                document.getElementById('oneUltraUnlimited').style.borderColor = '#F5B01A'
+            }
+        }
+
+        function changeMobilePlan(id) {
+            const selectedPlan = mobilePlans.find(plan => plan.id === id)
+            const element = document.querySelector('.nebula-mobile-plan-position');
+
+            const media = window.matchMedia("(min-width: 600px)")
+
+            if (media.matches) {
+                element.style.backgroundImage = `url(${selectedPlan.content})`;
+                element.style.left = `calc(${selectedPlan.position}% - 32px)`;
+            } else {
+                element.style.left = `calc(${selectedPlan.position}% - 16px)`;
+            }
+
+            if (currentMobilePlan) {
+                const currentElement = document.getElementById(currentMobilePlan.id)
+                currentElement.style.backgroundColor = currentMobilePlan.color;
+                currentElement.style.color = "white";
+            }
+
+            if (selectedPlan.currentMobileCardOrder > 3) {
+                const shufflePositions = selectedPlan.currentMobileCardOrder - currentMobilePlan.currentMobileCardOrder
+                mobilePlans = rotateLeft(mobilePlans, shufflePositions)
+            } else {
+                const shufflePositions = currentMobilePlan.currentMobileCardOrder - selectedPlan.currentMobileCardOrder
+                mobilePlans = rotateRight(mobilePlans, shufflePositions)
+            }
+
+            mobilePlans = mobilePlans.map((plan, index) => { return {...plan, currentMobileCardOrder: index + 1} } )
+            selectedPlan.currentMobileCardOrder = 3;
+
+            mobilePlans.forEach((plan, index) => {
+                const elem = document.getElementById(`${plan.id}Card`)
+                elem.className = '';
+                elem.classList.add(mobileCardStyles[index].class)
+                elem.style.left = mobileCardStyles[index].left
+            })
+
+            const selectedPlanElement = document.getElementById(id)
+            selectedPlanElement.style.backgroundColor = "#F5B01A";
+            selectedPlanElement.style.color = "#F5B01A";
+
+            currentMobilePlan = selectedPlan;
+
+            updateMobilePlanTabSelection(id)
+
+            calculateTotal();
+        }
+
+        function swipeMobilePlan() {
+            let selectedPlan;
+            let selectedPlanPosition;
+
+            if (touchstartX === touchendX) return;
+
+            if (touchendX < touchstartX) {
+                mobilePlans = rotateLeft(mobilePlans, 1)
+                selectedPlanPosition = 4
+            } else {
+                mobilePlans = rotateRight(mobilePlans, 1)
+                selectedPlanPosition = 2
+            }
+
+            selectedPlan = mobilePlans.find(plan => plan.currentMobileCardOrder === selectedPlanPosition)
+
+            const element = document.querySelector('.nebula-mobile-plan-position');
+            element.style.left = `calc(${selectedPlan.position}% - 16px)`;
+
+            if (currentMobilePlan) {
+                const currentElement = document.getElementById(currentMobilePlan.id)
+                currentElement.style.backgroundColor = currentMobilePlan.color;
+            }
+
+
+            mobilePlans = mobilePlans.map((plan, index) => { return {...plan, currentMobileCardOrder: index + 1} } )
+            selectedPlan.currentMobileCardOrder = 3;
+
+            mobilePlans.forEach((plan, index) => {
+                const elem = document.getElementById(`${plan.id}Card`)
+                elem.className = '';
+                elem.classList.add(mobileCardStyles[index].class)
+                elem.style.left = mobileCardStyles[index].left
+            })
+
+            const selectedPlanElement = document.getElementById(selectedPlan.id)
+            selectedPlanElement.style.backgroundColor = "#F5B01A";
+
+            currentMobilePlan = selectedPlan;
+
+            updateMobilePlanTabSelection(selectedPlan.id)
+
+            calculateTotal();
+        }
+
+        function changeInternetPlan(id) {
+            const selectedPlan = internetPlans.find(plan => plan.id === id)
+            const element = document.querySelector('.nebula-internet-plan-position');
+            const media = window.matchMedia("(min-width: 600px)")
+
+            if (media.matches) {
+                element.style.left = `calc(${selectedPlan.position}% - 32px)`;
+            } else {
+                element.style.left = `calc(${selectedPlan.position}% - 16px)`;
+            }
+
+            if (currentInternetPlan) {
+                const currentElement = document.getElementById(currentInternetPlan.id)
+                currentElement.style.backgroundColor = currentInternetPlan.color;
+                currentElement.style.color = "white";
+            }
+
+            if (selectedPlan.currentMobileCardOrder > 3) {
+                const shufflePositions = selectedPlan.currentMobileCardOrder - currentInternetPlan.currentMobileCardOrder
+                internetPlans = rotateLeft(internetPlans, shufflePositions)
+            } else {
+                const shufflePositions = currentInternetPlan.currentMobileCardOrder - selectedPlan.currentMobileCardOrder
+                internetPlans = rotateRight(internetPlans, shufflePositions)
+            }
+
+            internetPlans = internetPlans.map((plan, index) => { return {...plan, currentMobileCardOrder: index + 1} } )
+            selectedPlan.currentMobileCardOrder = 3;
+
+            internetPlans.forEach((plan, index) => {
+                const elem = document.getElementById(`${plan.id}Card`)
+                elem.className = '';
+                elem.classList.add(mobileCardStyles[index].class)
+                elem.style.left = mobileCardStyles[index].left
+            })
+
+            const selectedPlanElement = document.getElementById(id)
+
+            selectedPlanElement.style.backgroundColor = "#F5B01A";
+            selectedPlanElement.style.color = "#F5B01A";
+
+            currentInternetPlan = selectedPlan;
+
+            updateInternetPlanTabSelection(id)
+
+            calculateTotal();
+        }
+
+        function swipeInternetPlan() {
+            let selectedPlan;
+            let selectedPlanPosition;
+
+            if (touchstartX === touchendX) return;
+
+            if (touchendX < touchstartX) {
+                internetPlans = rotateLeft(internetPlans, 1)
+                selectedPlanPosition = 4
+            } else {
+                internetPlans = rotateRight(internetPlans, 1)
+                selectedPlanPosition = 2
+            }
+
+            selectedPlan = internetPlans.find(plan => plan.currentMobileCardOrder === selectedPlanPosition)
+
+            const element = document.querySelector('.nebula-internet-plan-position');
+            element.style.left = `calc(${selectedPlan.position}% - 16px)`;
+
+            if (currentInternetPlan) {
+                const currentElement = document.getElementById(currentInternetPlan.id)
+                currentElement.style.backgroundColor = currentInternetPlan.color;
+            }
+
+
+            internetPlans = internetPlans.map((plan, index) => { return {...plan, currentMobileCardOrder: index + 1} } )
+            selectedPlan.currentMobileCardOrder = 3;
+
+            internetPlans.forEach((plan, index) => {
+                const elem = document.getElementById(`${plan.id}Card`)
+                elem.className = '';
+                elem.classList.add(mobileCardStyles[index].class)
+                elem.style.left = mobileCardStyles[index].left
+            })
+
+            const selectedPlanElement = document.getElementById(selectedPlan.id)
+            selectedPlanElement.style.backgroundColor = "#F5B01A";
+
+            currentInternetPlan = selectedPlan;
+
+            updateInternetPlanTabSelection(selectedPlan.id)
+
+            calculateTotal();
+        }
+
+        function changeTringPlan(id) {
+            const selectedPlan = tringPlans.find(plan => plan.id === id)
+            const element = document.querySelector('.nebula-tring-plan-position');
+            element.style.left = `${selectedPlan.position}%`;
+
+            const media = window.matchMedia("(min-width: 600px)")
+
+            if (media.matches) {
+                element.innerHTML = selectedPlan.content;
+                element.style.left = `calc(${selectedPlan.position}% - 32px)`;
+            } else {
+                element.style.left = `calc(${selectedPlan.position}% - 16px)`;
+            }
+
+            if (currentTringPlan) {
+                const currentElement = document.getElementById(currentTringPlan.id)
+                currentElement.style.backgroundColor = currentTringPlan.color;
+                currentElement.style.color = "white";
+            }
+
+            if (id === "tringBase") {
+                const tringBaseElem = document.getElementById("tringBaseCard")
+                tringBaseElem.className = '';
+                tringBaseElem.classList.add("nebula-selected-card")
+
+                const tringFullElem = document.getElementById("tringFullCard")
+                tringFullElem.className = '';
+                tringFullElem.classList.add("nebula-card-one")
+            } else {
+                const tringBaseElem = document.getElementById("tringBaseCard")
+                tringBaseElem.className = '';
+                tringBaseElem.classList.add("nebula-card-one")
+
+                const tringFullElem = document.getElementById("tringFullCard")
+                tringFullElem.className = '';
+                tringFullElem.classList.add("nebula-selected-card")
+            }
+
+            const plan = document.getElementById(id)
+
+            plan.style.backgroundColor = "#F5B01A";
+            plan.style.color = "#F5B01A";
+
+            currentTringPlan = selectedPlan;
+            currentTVPlan = selectedPlan;
+
+            document.getElementById("modalTitle").innerHTML = currentTVPlan.title
+            document.getElementById("modalContent").innerHTML = currentTVPlan.channels
+
+            calculateTotal();
+        }
+
+        function changeDigitalbPlan(id) {
+            const selectedPlan = digitalbPlans.find(plan => plan.id === id)
+            const element = document.querySelector('.nebula-digitalb-plan-position');
+            element.style.left = `${selectedPlan.position}%`;
+
+            const media = window.matchMedia("(min-width: 600px)")
+
+            if (media.matches) {
+                element.innerHTML = selectedPlan.content;
+                element.style.left = `calc(${selectedPlan.position}% - 32px)`;
+            } else {
+                element.style.left = `calc(${selectedPlan.position}% - 16px)`;
+            }
+
+            if (currentDigitalbPlan) {
+                const currentElement = document.getElementById(currentDigitalbPlan.id)
+                currentElement.style.backgroundColor = currentDigitalbPlan.color;
+                currentElement.style.color = "white";
+            }
+
+            if (selectedPlan.currentMobileCardOrder > 2) {
+                digitalbPlans = rotateLeft(digitalbPlans, 1)
+            } else {
+                digitalbPlans = rotateRight(digitalbPlans, 1)
+            }
+
+            digitalbPlans = digitalbPlans.map((plan, index) => { return {...plan, currentMobileCardOrder: index + 1} } )
+            selectedPlan.currentMobileCardOrder = 3;
+
+            digitalbPlans.forEach((plan, index) => {
+                const elem = document.getElementById(`${plan.id}Card`)
+                elem.className = '';
+                elem.classList.add(digitalbMobileCardStyles[index].class)
+                elem.style.left = digitalbMobileCardStyles[index].left
+            })
+
+            const selectedPlanElement = document.getElementById(id)
+
+            selectedPlanElement.style.backgroundColor = "#F5B01A";
+            selectedPlanElement.style.color = "#F5B01A";
+
+            currentDigitalbPlan = selectedPlan;
+            currentTVPlan = selectedPlan;
+
+            document.getElementById("modalTitle").innerHTML = currentTVPlan.title
+            document.getElementById("modalContent").innerHTML = currentTVPlan.channels
+
+            calculateTotal();
+        }
+
+        function swipeDigitalbPlan() {
+            let selectedPlan;
+            let selectedPlanPosition;
+
+            if (touchstartX === touchendX) return;
+
+            if (touchendX < touchstartX) {
+                digitalbPlans = rotateLeft(digitalbPlans, 1)
+                selectedPlanPosition = 3
+            } else {
+                digitalbPlans = rotateRight(digitalbPlans, 1)
+                selectedPlanPosition = 1
+            }
+
+            selectedPlan = digitalbPlans.find(plan => plan.currentMobileCardOrder === selectedPlanPosition)
+
+            const element = document.querySelector('.nebula-digitalb-plan-position');
+            element.style.left = `calc(${selectedPlan.position}% - 16px)`;
+
+            if (currentDigitalbPlan) {
+                const currentElement = document.getElementById(currentDigitalbPlan.id)
+                currentElement.style.backgroundColor = currentDigitalbPlan.color;
+            }
+
+
+            digitalbPlans = digitalbPlans.map((plan, index) => { return {...plan, currentMobileCardOrder: index + 1} } )
+            selectedPlan.currentMobileCardOrder = 2;
+
+            digitalbPlans.forEach((plan, index) => {
+                const elem = document.getElementById(`${plan.id}Card`)
+                elem.className = '';
+                elem.classList.add(digitalbMobileCardStyles[index].class)
+                elem.style.left = digitalbMobileCardStyles[index].left
+            })
+
+            const selectedPlanElement = document.getElementById(selectedPlan.id)
+            selectedPlanElement.style.backgroundColor = "#F5B01A";
+
+            currentDigitalbPlan = selectedPlan;
+            currentTVPlan = selectedPlan;
+
+            calculateTotal();
+        }
+
+        function toggleTv() {
+            const target = document.getElementById("tvPlans");
+            const button = document.getElementById("tvButton")
+
+            if (target.style.display === "none") {
+                target.style.display = "block";
+                button.textContent = "Nuk dua TV";
+
+                document.getElementById("tringButton").style.borderColor = "#F5B01A"
+                document.getElementById("digitalbButton").style.borderColor = "transparent"
+                document.getElementById("tringContent").classList.remove("hidden")
+                document.getElementById("digitalbContent").classList.add("hidden")
+                document.getElementById("tringPlansCarousel").classList.remove("hidden")
+                document.getElementById("digitalbPlansCarousel").classList.add("hidden")
+
+                currentTVPlan = currentTringPlan;
+            } else {
+                target.style.display = "none";
+                button.textContent = "Shto TV";
+                currentTVPlan = null;
+            }
+            calculateTotal();
+        }
+
+        window.addEventListener("DOMContentLoaded", function() {
+
+            const mobilePlanElement = document.getElementById("mobilePlan")
+            const internetPlanElement = document.getElementById("internetPlan")
+            const tringPlanElement = document.getElementById("tringPlan")
+            const digitalbPlanElement = document.getElementById("digitalbPlan")
+
+            const media = window.matchMedia("(min-width: 600px)")
+
+            const showModal = (event) => {
+                document.getElementById("tvModal").classList.remove("hidden");
+                document.getElementById("modalTitle").innerHTML = currentTVPlan.title
+                document.getElementById("modalContent").innerHTML = currentTVPlan.channels
+            }
+
+            const hideModal = (event) => {
+                document.getElementById("tvModal").classList.add("hidden")
+            }
+
+            document.getElementById("modalButton").addEventListener("click", hideModal)
+
+            if (media.matches) {
+                mobilePlanElement.style.backgroundImage = `url(${currentMobilePlan.content})`;
+
+                internetPlanElement.style.backgroundImage = `url(${currentInternetPlan.content})`;
+                tringPlanElement.innerHTML = currentTringPlan.content;
+                digitalbPlanElement.innerHTML = currentDigitalbPlan.content;
+
+                mobilePlanElement.addEventListener("mouseover", (event) => {
+                    event.target.style.backgroundImage = `url(${currentMobilePlan.hoverContent})`;
+                    event.target.style.backgroundSize = '90%';
+                });
+
+                mobilePlanElement.addEventListener("mouseout", (event) => {
+                    event.target.style.backgroundImage = `url(${currentMobilePlan.content})`;
+                    event.target.style.backgroundSize = '80%'; 
+                });
+
+                $('#mobilePlan').draggable({
+                    axis: "x",
+                    containment: "parent",
+                    start: function() {
+                        mobilePlanElement.style.top = '-16px';
+                    },
+                    drag: function() {
+                        mobilePlanElement.style.top = '-16px';
+                    },
+                    stop: function( event, ui ) {
+                        const left = ( 100 * parseFloat(ui.position.left / parseFloat($(this).parent().width())) ) ;
+                        mobilePlanElement.style.top = '-16px';
+
+                        if (left < 20) {
+                            changeMobilePlan('oneGoPro')
+                        } else if (left < 40) {
+                            changeMobilePlan('oneSmartPro')
+                        } else if (left < 60) {
+                            changeMobilePlan('oneExtraPro')
+                        } else if (left < 80) {
+                            changeMobilePlan('OneUltra50')
+                        } else {
+                            changeMobilePlan('uoneUltraMax')
+                        }
+                    }
+                });
+
+                internetPlanElement.addEventListener("mouseover", (event) => {
+                    event.target.style.backgroundImage = `url(${currentInternetPlan.hoverContent})`;
+                    event.target.style.backgroundSize = '95%';
+                });
+
+                internetPlanElement.addEventListener("mouseout", (event) => {
+                    event.target.style.backgroundImage = `url(${currentInternetPlan.content})`;
+                    event.target.style.backgroundSize = '80%';
+                });
+
+                $('#internetPlan').draggable({
+                    axis: "x",
+                    containment: "parent",
+                    start: function() {
+                        internetPlanElement.style.top = '-16px';
+                    },
+                    drag: function() {
+                        internetPlanElement.style.top = '-16px';
+                    },
+                    stop: function( event, ui ) {
+                        const left = ( 100 * parseFloat(ui.position.left / parseFloat($(this).parent().width())) ) ;
+                        internetPlanElement.style.top = '-16px';
+
+                        if (left < 20) {
+                            changeInternetPlan('oneUltraFiber60mb')
+                        } else if (left < 40) {
+                            changeInternetPlan('oneUltraFiber100mb')
+                        } else if (left < 60) {
+                            changeInternetPlan('oneUltraFiber300mb')
+                        } else if (left < 80) {
+                            changeInternetPlan('oneUltraFiber1gb')
+                        } else {
+                            changeInternetPlan('oneHomenetMix')
+                        }
+                    }
+                })
+
+                tringPlanElement.addEventListener("mouseover", (event) => {
+                    event.target.innerHTML = currentTringPlan.hoverContent
+                    event.target.style.padding = '25px'
+                });
+
+                tringPlanElement.addEventListener("mouseout", (event) => {
+                    event.target.innerHTML = currentTringPlan.content;
+                    event.target.style.padding = '20px'
+                });
+
+                $('#tringPlan').hover(
+                    function() {
+                        timeout = setTimeout(() => {
+                            tringPlanElement.style.cursor = 'auto';
+                            tringPlanElement.addEventListener("click", showModal);
+                        }, 500)
+                    },
+                    function() {
+                        clearTimeout(timeout)
+                        tringPlanElement.removeEventListener("click", showModal);
+                        tringPlanElement.style.cursor = 'auto';
+                    }
+                )
+
+                $('#tringPlan').draggable({
+                    axis: "x",
+                    containment: "parent",
+                    start: function() {
+                        tringPlanElement.style.top = '-16px';
+                    },
+                    drag: function() {
+                        tringPlanElement.style.top = '-16px';
+                    },
+                    stop: function( event, ui ) {
+                        const left = ( 100 * parseFloat(ui.position.left / parseFloat($(this).parent().width())) ) ;
+                        tringPlanElement.style.top = '-16px';
+                        if (left < 50) {
+                            changeTringPlan('tringBase')
+                        } else {
+                            changeTringPlan('tringFull')
+                        }
+                    }
+                })
+
+                digitalbPlanElement.addEventListener("mouseover", (event) => {
+                    event.target.innerHTML = currentDigitalbPlan.hoverContent
+                    event.target.style.padding = '25px'
+                });
+
+                digitalbPlanElement.addEventListener("mouseout", (event) => {
+                    event.target.innerHTML = currentDigitalbPlan.content;
+                    event.target.style.padding= '20px 8px'
+                });
+
+                $('#digitalbPlan').hover(
+                    function() {
+                        timeout = setTimeout(() => {
+                            digitalbPlanElement.addEventListener("click", showModal);
+                            digitalbPlanElement.style.cursor = 'pointer';
+                        }, 500)
+                    },
+                    function() {
+                        clearTimeout(timeout)
+                        digitalbPlanElement.removeEventListener("click", showModal);
+                        digitalbPlanElement.style.cursor = 'auto';
+                    }
+                )
+
+                $('#digitalbPlan').draggable({
+                    axis: "x",
+                    containment: "parent",
+                    start: function() {
+                        digitalbPlanElement.style.top = '-16px';
+                    },
+                    drag: function() {
+                        digitalbPlanElement.style.top = '-16px';
+                    },
+                    stop: function( event, ui ) {
+                        const left = ( 100 * parseFloat(ui.position.left / parseFloat($(this).parent().width())) ) ;
+                        digitalbPlanElement.style.top = '-16px';
+
+                        if (left < 33) {
+                            changeDigitalbPlan('dgaStarter')
+                        } else if (left < 66) {
+                            changeDigitalbPlan('dgaFamily')
+                        } else {
+                            changeDigitalbPlan('dgaPremium')
+                        }
+                    }
+                })
+            }
+
+            
+            document.getElementById("oneUltraFiber1gb").addEventListener("click", function(){
+                document.getElementById("sticker1").style.display="block"
+                document.getElementById("ellipse-sticker1").style.display="block"
+            })
+
+            document.getElementById("oneUltraFiber300mb").addEventListener("click", function(){
+                document.getElementById("sticker1").style.display="block"
+                document.getElementById("ellipse-sticker1").style.display="block"
+            })
+
+            function hideSticker(){
+                document.getElementById("sticker1").style.display = "none";
+                document.getElementById("ellipse-sticker1").style.display="none"
+            }
+
+            document.getElementById("oneUltraFiber60mb").addEventListener("click", hideSticker);
+            document.getElementById("oneUltraFiber100mb").addEventListener("click", hideSticker);
+            document.getElementById("oneHomenetMix").addEventListener("click", hideSticker);
+            document.getElementById("oneFiber").addEventListener("click", hideSticker);
+            document.getElementById("oneHomeNet").addEventListener("click", hideSticker);
+            
+
+            // NEW CODE
+            $('#tringPlan').on('click', function () {
+                showModal()
+            });
+
+            document.getElementById("applyButton").addEventListener("click", function () {
+                this.classList.add("hidden")
+                document.getElementById("applicationForm").classList.remove("hidden")
+            });
+
+            document.getElementById("closeButton").addEventListener("click", function (e) {
+                e.preventDefault();
+                document.getElementById("applicationForm").classList.add("hidden")
+                document.getElementById("applyButton").classList.remove("hidden")
+            });
+
+            document.getElementById("applicationForm").addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById("name").value;
+                const email = document.getElementById("email").value;
+                const phone = document.getElementById("phone").value;
+
+                if (name == "" || email == "" || phone == "") {
+                    return alert("Ju lutemi plotesoni te gjitha fushat!");
+                }
+
+                const data = [
+                    {label: 'Emri', value: name},
+                    {label: 'Email', value: email},
+                    {label: 'Numri i telefonit', value: phone},
+                    {label: 'Plani mobile i zgjdhur', value: currentMobilePlan.title},
+                    {label: 'Plani i internetit i zgjdhur', value: currentInternetPlan.title},
+                    {label: 'Çmimi promocional', value:  `${promoPrice} Lekë`},
+                    {label: 'Çmimi real', value: `${realPrice} Lekë`}
+                ]
+
+                if (currentTVPlan) {
+                    data.splice(5, 0, {label: 'Plani TV i zgjedhur', value:  currentTVPlan.title});
+                }
+
+                fetch('https://promo.one.al/api/send-email', {
+                    method: 'POST',
+                    body: JSON.stringify({data}),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    referrer: 'no-referrer'
+                }).then(function (response) {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    return Promise.reject(response);
+                }).then(function (data) {
+                    const successMessageElem = document.getElementById("submittedSuccess")
+                    successMessageElem.classList.remove("hidden");
+                    setTimeout(() => {
+                        successMessageElem.classList.add("hidden");
+                    }, 5000)
+                    document.getElementById("applicationForm").reset();
+                }).catch(function (err) {
+                    alert('Dicka shkoi keq!', err);
+                });
+            });
+
+            document.getElementById("tringButton").addEventListener("click", function () {
+                this.style.borderColor = "#F5B01A"
+                document.getElementById("tringContent").classList.remove("hidden")
+                document.getElementById("tringPlansCarousel").classList.remove("hidden")
+                document.getElementById("digitalbContent").classList.add("hidden")
+                document.getElementById("digitalbPlansCarousel").classList.add("hidden")
+                document.getElementById("digitalbButton").style.borderColor = "transparent"
+                currentTVPlan = currentTringPlan
+                document.getElementById("modalTitle").innerHTML = currentTVPlan.title
+                document.getElementById("modalContent").innerHTML = currentTVPlan.channels
+                calculateTotal()
+            });
+
+            document.getElementById("digitalbButton").addEventListener("click", function () {
+                this.style.borderColor = "#F5B01A"
+                document.getElementById("digitalbContent").classList.remove("hidden")
+                document.getElementById("digitalbPlansCarousel").classList.remove("hidden")
+                document.getElementById("tringContent").classList.add("hidden")
+                document.getElementById("tringPlansCarousel").classList.add("hidden")
+                document.getElementById("tringButton").style.borderColor = "transparent"
+                currentTVPlan = currentDigitalbPlan
+                document.getElementById("modalTitle").innerHTML = currentTVPlan.title
+                document.getElementById("modalContent").innerHTML = currentTVPlan.channels
+                calculateTotal()
+            })
+
+            document.getElementById("mobilePlansCarousel").addEventListener('touchstart', function (event) {
+                touchstartX = event.changedTouches[0].screenX;
+            }, false);
+
+            document.getElementById("mobilePlansCarousel").addEventListener('touchend', function (event) {
+                touchendX = event.changedTouches[0].screenX;
+                swipeMobilePlan();
+            }, false);
+
+            document.getElementById("internetPlansCarousel").addEventListener('touchstart', function (event) {
+                touchstartX = event.changedTouches[0].screenX;
+            }, false);
+
+            document.getElementById("internetPlansCarousel").addEventListener('touchend', function (event) {
+                touchendX = event.changedTouches[0].screenX;
+                swipeInternetPlan();
+            }, false);
+
+            document.getElementById("digitalbPlansCarousel").addEventListener('touchstart', function (event) {
+                touchstartX = event.changedTouches[0].screenX;
+            }, false);
+
+            document.getElementById("digitalbPlansCarousel").addEventListener('touchend', function (event) {
+                touchendX = event.changedTouches[0].screenX;
+                swipeDigitalbPlan();
+            }, false);
+
+            const faqElements = document.getElementsByClassName("nebula-faq");
+
+            Array.from(faqElements).forEach(questionElement => questionElement.addEventListener('click', function() {
+                const answerElem = this.querySelector('.nebula-answer');
+                const iconElem = this.querySelector('.nebula-icon')
+
+                if (answerElem.classList.contains("hidden")) {
+                    answerElem.classList.remove("hidden");
+                    iconElem.className = 'nebula-icon'
+                } else {
+                    answerElem.classList.add("hidden")
+                    iconElem.className = 'fa-regular fa-plus pl-2 nebula-icon'
+                }
+            }, false))
+
+            calculateTotal()
+
+            // NEW Code
+            $('#oneUnlimited').on('click', function () {
+                changeMobilePlan('oneGoPro')
+            })
+            $('#oneUltraUnlimited').on('click', function () {
+                changeMobilePlan('oneUltraMax')
+            })
+            $('#oneFiber').on('click', function () {
+                changeInternetPlan('oneUltraFiber60mb')
+            })
+            $('#oneHomeNet').on('click', function () {
+                changeInternetPlan('oneHomenetMix', 87, '#662F8E', 1300)
+            })
+        });
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-54PRZKX');</script>
+    <!-- End Google Tag Manager -->
+</head>
+<body class="nebula-custom-font">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54PRZKX"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="relative p-12 bg-[#662E8F] border-white">
+    <a href="https://one.al">
+        <img src="./OneLogo.png" alt="OneLogo" class="absolute top-0 left-0 h-20">
+    </a>
+</div>
+
+<div class="banner">
+    <div>
+        <img src="banner-full1.png" class="picture">
+    </div>
+    <div class="bannertext">
+        <h1 class="text-[#fff] text-2xl font-bold">Shtoji Paketat e Internetit me shpejtësi 300 Mbps ose 1 Gbps kombinimit tënd me Mix&Max</h1>
+    </div>
+
+</div>
+
+
+<img src="./flake1.png" class="hidden snowflake1 md:block">
+<img src="./flake2.png" class="hidden snowflake2 md:block">
+<img src="./flake3.png" class="hidden snowflake3 md:block">
+
+
+<div class="my-5">
+    <h1 class="flex flex-col md:flex-row items-center justify-center text-center text-[#652D90] text-2xl font-bold mb-3">
+        <span class="text-[#F6B119] text-5xl mr-2">1</span>
+        Zgjidh planin tënd mobile
+    </h1>
+    <div class="flex justify-center space-x-4">
+        <h1 id="oneUnlimited" class="cursor-pointer leading-6 text-center px-3 py-2 text-[#652D90] text-2xl font-bold border-b-[3px] border-b-transparent transition duration-300">
+            Planet <br/> One
+        </h1>
+        <h1 id="oneUltraUnlimited" class="cursor-pointer leading-6 text-center px-3 py-2 text-[#652D90] text-2xl font-bold border-b-[#F5B01A] transition duration-300 border-b-[3px]">
+            Planet One <br/> Ultra
+        </h1>
+    </div>
+    <div class="flex justify-center md:px-15 py-10">
+        <div id="mobilePlanContainer" class="relative flex w-11/12 md:w-5/6 border-2 md:border-[3px] border-[#652D90] p-1 md:p-1.5 rounded-full text-white text-sm">
+            <div
+                    id="mobilePlan"
+                    class="nebula-mobile-plan-position -top-2 md:-top-4 rounded-full p-5 md:h-22 md:w-22 md:p-9 hover:scale-105 md:hover:scale-[170%] transform delay-200 duration-500">
+            </div>
+            <div
+                    id="oneGoPro"
+                    onclick="changeMobilePlan('oneGoPro')"
+                    class="flex-1 text-center bg-[#D3C8E2] p-2 md:p-1 rounded-full -mr-3 md:-mr-8 z-40 trasition-bg duration-500 cursor-pointer">
+                <div class="hidden md:block">One Go Pro </div>
+            </div>
+            <div
+                    id="oneSmartPro"
+                    onclick="changeMobilePlan('oneSmartPro')"
+                    class="flex-1 text-center bg-[#BCA9D0] p-2 md:p-1 rounded-full -mr-3 md:-mr-8 z-30 trasition-bg duration-500 cursor-pointer">
+                <div class="hidden md:block">One Smart Pro</div>
+            </div>
+            <div
+                    id="oneExtraPro"
+                    onclick="changeMobilePlan('oneExtraPro')"
+                    class="flex-1 text-center bg-[#F5B01A] text-[#F5B01A] p-2 md:p-1 rounded-full -mr-3 md:-mr-8 z-20 trasition-bg duration-500 cursor-pointer">
+                <div class="hidden md:block">One Extra Pro </div>
+            </div>
+            <div
+                    id="oneUltra50"
+                    onclick="changeMobilePlan('oneUltra50')"
+                    class="flex-1 text-center bg-[#845EA5] p-2 md:p-1 rounded-full -mr-3 md:-mr-8 z-10 trasition-bg duration-500 cursor-pointer">
+                <div class="hidden md:block"> One Ultra 50</div>
+            </div>
+            <div
+                    id="oneUltraMax"
+                    onclick="changeMobilePlan('oneUltraMax')"
+                    class="flex-1 text-center bg-[#662F8E] p-2 md:p-1 rounded-full trasition-bg duration-500 cursor-pointer">
+                <div class="hidden md:block">One Ultra Max</div>
+            </div>
+        </div>
+    </div>
+    <div class="block md:hidden">
+        <div id="mobilePlansCarousel" class="flex relative h-64" style="z-index:9999">
+            <div id="oneGoProCard" style="left:-5%" class="nebula-card-two">
+                <p class="flex justify-center px-5 text-xl leading-5 mt-2">
+                    <b>One Go Pro </b>
+                </p>
+                <p class="text-center text-5xl font-bold mt-7 mb-8">1GB</p>
+                <div class="text-xs text-center px-2"><b>400</b> National Min</div>
+                <div class="text-xs text-center px-2"><b>400</b> National SMS</div>
+            </div>
+            <div id="oneSmartProCard" style="left:10%" class="nebula-card-one">
+                <p class="flex justify-center text-center px-5 text-xl leading-5">
+                    <b>One Smart Pro</b>
+                </p>
+                <p class="text-center text-5xl font-bold mt-6 mb-6">10GB</p>
+                <div class="text-xs text-center px-2"><b>Unlimited</b> National Min</div>
+                <div class="text-xs text-center px-2"><b>1000</b> National SMS</div>
+            </div>
+            <div id="oneExtraProCard" class="nebula-selected-card">
+                  
+                        <p class="flex justify-center text-center px-5 text-xl leading-5"><b>One Extra Pro</b></p>
+
+                <p class="text-center text-5xl font-bold px-5 mt-7 mb-8">25GB</p>
+                <div class="text-xs text-center px-2"><b>Unlimited</b> National Min</div>
+                <div class="text-xs text-center px-2"><b>Unlimited</b> National SMS</div>
+            </div>
+            <div id="oneUltra50Card" style="left:50%" class="nebula-card-one">
+
+                   
+                        <p class="flex justify-center text-center px-5 text-xl leading-5"><b>One Ultra 50</b></p>
+
+                <p class="text-center text-2xl font-bold px-5 mt-7 mb-8">Internet pa limit</p>
+                <div class="text-white text-opacity-90 text sm font-light text-center my-2 px-2">Deri në 50 Mbps</div>
+                <div class="text-xs text-center px-2"><b>Unlimited</b> National Min</div>
+                <div class="text-xs text-center px-2"><b>Unlimited</b> National SMS</div>
+            </div>
+            <div id="oneUltraMaxCard" style="left:65%" class="nebula-card-two">
+             
+                        <p class="flex justify-center text-center px-5 text-xl leading-5"><b>One Ultra Max</b></p>
+
+                <p class="text-center text-2xl font-bold px-5 mt-7 mb-8">Internet pa limit</p>
+                <div class="text-white text-opacity-90 text-sm font-light text-center my-2 px-2">Shpejtësi pa limit</div>
+                <div class="text-xs text-center px-2"><b>Unlimited</b> National Min</div>
+                <div class="text-xs text-center px-2"><b>Unlimited</b> National SMS</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="my-5">
+    <h1 class="flex flex-col md:flex-row items-center justify-center text-center text-[#652D90] text-2xl font-bold">
+        <span class="text-[#F6B119] text-5xl mr-2">2</span>
+        Shtoji Internetin e shtëpisë kombinimit tënd
+    </h1>
+    <div class="flex justify-center space-x-4">
+        <h1 id="oneFiber" class="cursor-pointer px-3 py-2 text-[#652D90] text-2xl font-bold border-b-[3px] border-b-[#F5B01A]">
+            Fiber
+        </h1>
+        <h1 id="oneHomeNet" class=" cursor-pointer px-3 py-2 text-[#652D90] text-2xl font-bold border-b-[3px] border-transparent">
+            Home Net
+        </h1>
+    </div>
+    <div class="flex justify-center px-15 py-10">
+        <div class="relative flex w-11/12 md:w-5/6 border-2 md:border-[3px] border-[#652D90] p-1 md:p-1.5 rounded-full text-white text-sm">
+            <div id="internetPlan" class="nebula-internet-plan-position -top-2 md:-top-4 rounded-full p-5 md:h-22 md:w-22 md:p-9 transform hover:scale-150 duration-500">
+                <img src="Ellipse-375.png" class="dsc-sticker1" id="ellipse-sticker1">
+                <img src="discount-sticker.png" class="dsc-sticker1" id="sticker1">
+            </div>
+            <div
+                    id="oneUltraFiber60mb"
+                    onclick="changeInternetPlan('oneUltraFiber60mb')"
+                    class="flex-1 flex items-center text-center bg-[#D3C8E2] p-2 md:p-1 rounded-full -mr-3 md:-mr-8 z-40 trasition-bg duration-500 cursor-pointer">
+                <div class="hidden md:block">One ultra fiber 60mbps</div>
+            </div>
+            <div
+                    id="oneUltraFiber100mb"
+                    onclick="changeInternetPlan('oneUltraFiber100mb')"
+                    class="flex-1 flex items-center justify-center text-center bg-[#BCA9D0] p-2 md:p-1 rounded-full -mr-3 md:-mr-8 z-30 trasition-bg duration-500 cursor-pointer">
+                <div class="hidden md:block pl-6">One ultra fiber 100mbps</div>
+            </div>
+            <div
+                    id="oneUltraFiber300mb"
+                    onclick="changeInternetPlan('oneUltraFiber300mb')"
+                    class="flex-1 flex items-center justify-center text-center bg-[#F5B01A] text-[#F5B01A] p-2 md:p-1 rounded-full -mr-3 md:-mr-8 z-20 trasition-bg duration-500 cursor-pointer">
+                <div class="hidden md:block pl-6">One ultra fiber 300mbps</div>
+                <img src="candlestick.png" class="candlestick">
+            </div>
+            <div
+                    id="oneUltraFiber1gb"
+                    onclick="changeInternetPlan('oneUltraFiber1gb', 67, '#845EA5', 4800)"
+                    class="flex-1 flex items-center justify-center w-11/12 text-center bg-[#845EA5] p-2 md:p-1 rounded-full -mr-3 md:-mr-8 z-10 trasition-bg duration-500 cursor-pointer">
+                <div class="hidden md:block pl-6">One ultra fiber</div>
+                <img src="candlestick.png" class="candlestick">
+            </div>
+            <div
+                    id="oneHomenetMix"
+                    onclick="changeInternetPlan('oneHomenetMix', 87, '#662F8E', 1300)"
+                    class="flex-1 flex items-center justify-center text-center bg-[#662F8E] p-2 md:p-1 rounded-full trasition-bg duration-500 cursor-pointer">
+                <div class="hidden md:block pl-6">One HomeNet</div>
+            </div>
+        </div>
+    </div>
+    <div class="block md:hidden">
+        <div id="internetPlansCarousel" class="flex relative h-64" style="z-index:9999">
+            <div id="oneUltraFiber60mbCard" style="left:-5%" class="nebula-card-two">
+                <div class="flex justify-center px-5">
+                    <img src="./OneUltraFiberPurple.png" alt="" class="h-7 mb-1">
+                </div>
+                <div class="nebula-primary-color text-center text-4xl font-bold my-6">60/30 <br/> Mbps</div>
+            </div>
+            <div id="oneUltraFiber100mbCard" style="left:10%" class="nebula-card-one">
+                <div class="flex justify-center px-5">
+                    <img src="./OneUltraFiberPurple.png" alt="" class="h-7 mb-1">
+                </div>
+                <div class="text-center text-4xl font-bold my-6">100/50 <br/> Mbps</div>
+            </div>
+            <div id="oneUltraFiber300mbCard" class="nebula-selected-card">
+                <div class="flex justify-center px-5">
+                    <img src="./OneUltraFiberPurple.png" alt="" class="h-7 mb-2">
+                </div>
+                <div class="text-center text-4xl font-bold my-6">300/50 <br/> Mbps</div>
+            </div>
+            <div id="oneUltraFiber1gbCard" style="left:50%" class="nebula-card-one">
+                <div class="flex justify-center px-5">
+                    <img src="./OneUltraFiberPurple.png" alt="" class="h-7 mb-1">
+                </div>
+                <div class="text-center text-4xl font-bold my-11">1 Gbps</div>
+            </div>
+            <div id="oneHomenetMixCard" style="left:65%" class="nebula-card-two">
+                <div class="flex justify-center px-5">
+                    <img src="./OneUltraFiberPurple.png" alt="" class="h-7 mb-1">
+                </div>
+                <div class="text-center text-4xl font-bold my-6">Home <br/> Net</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="my-5">
+    <h1 class="flex flex-col md:flex-row items-center justify-center text-center text-[#652D90] text-2xl font-bold px-5">
+        <span class="text-[#F6B119] text-5xl mr-2">3</span>
+        Shto paketën TV në Mix&Max tënd
+        <button id="tvButton" onclick="toggleTv()" class="md:ml-10 text-sm w-48 px-4 py-2 text-[#652D90] bg-[#F5B01A] rounded-md cursor-pointer transition duration-400 hover:scale-105">
+            Shto TV
+        </button>
+    </h1>
+    <div id="tvPlans" style="display:none">
+        <div class="mt-10">
+            <div class="flex justify-center items-start space-x-8">
+                <div id="tringButton" class="border-b-[3px] border-[#F5B01A] cursor-pointer">
+                    <img src="./tring.png" alt="Tring" class="h-12 object-scale-down">
+                </div>
+                <div id="digitalbButton" class="py-3 cursor-pointer border-b-[3px] border-transparent">
+                    <img src="./digitalb.png" alt="Digitalb" class="h-6 object-scale-down">
+                </div>
+            </div>
+
+            <div id="tringContent" class="flex justify-center py-10">
+                <div class="relative flex w-5/6 md:w-5/6 border-2 md:border-[3px] border-[#652D90] p-1 md:p-1.5 rounded-full text-white text-sm font-bold">
+                    <div id="tringPlan" class="nebula-tring-plan-position z-50 -top-2 md:-top-4 rounded-full p-5 transform hover:-translate-x-8 duration-300 leading-4 text-center text-xs"></div>
+                    <div
+                            id="tringBase"
+                            onclick="changeTringPlan('tringBase')"
+                            class="flex-1 text-center bg-[#F5B01A] text-[#F5B01A] p-2 md:p-1 rounded-full -mr-3 md:-mr-8 z-40 trasition-bg duration-500 cursor-pointer">
+                        <div class="hidden md:block">Tring Bazë</div>
+                    </div>
+                    <div
+                            id="tringFull"
+                            onclick="changeTringPlan('tringFull')"
+                            class="flex-1 text-center bg-[#9575B2] p-2 md:p-1 rounded-full z-20 trasition-bg duration-500 cursor-pointer">
+                        <div class="hidden md:block">Tring e plotë</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="digitalbContent" class="flex justify-center py-10 hidden">
+                <div class="relative flex w-5/6 md:w-5/6 border-2 md:border-[3px] border-[#652D90] p-1 md:p-1.5 rounded-full text-white">
+                    <div id="digitalbPlan" class="nebula-digitalb-plan-position z-50 -top-2 md:-top-4 rounded-full py-5 px-5 md:px-2 transform hover:-translate-x-8 duration-300 leading-4 text-center text-xs"></div>
+                    <div
+                            id="dgaStarter"
+                            onclick="changeDigitalbPlan('dgaStarter')"
+                            class="flex-1 text-center bg-[#D3C8E2] p-2 md:p-1 rounded-full -mr-3 md:-mr-8 z-40 trasition-bg duration-500 cursor-pointer">
+                        <div class="hidden md:block">DGA Fillestare</div>
+                    </div>
+                    <div
+                            id="dgaFamily"
+                            onclick="changeDigitalbPlan('dgaFamily')"
+                            class="flex-1 text-center bg-[#F5B01A] text-[#F5B01A] p-2 md:p-1 rounded-full -mr-3 md:-mr-8 z-20 trasition-bg duration-500 cursor-pointer">
+                        <div class="hidden md:block">DGA Familjare</div>
+                    </div>
+                    <div
+                            id="dgaPremium"
+                            onclick="changeDigitalbPlan('dgaPremium')"
+                            class="flex-1 text-center bg-[#845EA5] p-2 md:p-1 rounded-full z-10 trasition-bg duration-500 cursor-pointer">
+                        <div class="hidden md:block">DGA Premium</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block md:hidden">
+                <div id="tringPlansCarousel" class="flex relative h-64" style="z-index:9999">
+                    <div id="tringBaseCard" style="left:20%" class="nebula-selected-card">
+                        <div class="flex justify-center px-5">
+                            <img src="./tring.png" alt="" class="h-8 my-2 bg-white p-1 rounded-md">
+                        </div>
+                        <div class="text-center text-3xl font-bold mt-5 mb-8">Tring <br/> bazë</div>
+                    </div>
+                    <div id="tringFullCard" style="left:40%" class="nebula-card-one">
+                        <div class="flex justify-center px-5">
+                            <img src="./tring.png" alt="" class="h-8 my-2 bg-white p-1 rounded-md">
+                        </div>
+                        <div class="text-center text-3xl font-bold mt-5 mb-8">Tring e plotë</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block md:hidden">
+                <div id="digitalbPlansCarousel" class="flex relative h-64" style="z-index:9999">
+                    <div id="dgaStarterCard" style="left:10%" class="nebula-card-one">
+                        <div class="flex justify-center px-5">
+                            <img src="./digitalb.png" alt="" class="h-5 my-2">
+                        </div>
+                        <div class="text-center text-3xl font-bold mt-8 mb-10 leading-7">DGA Fillestare</div>
+                    </div>
+                    <div id="dgaFamilyCard" class="nebula-selected-card">
+                        <div class="flex justify-center px-5">
+                            <img src="./digitalb.png" alt="" class="h-5 my-2">
+                        </div>
+                        <div class="text-center text-3xl font-bold mt-8 mb-10 leading-7">DGA Familjare</div>
+                    </div>
+                    <div id="dgaPremiumCard" style="left:50%" class="nebula-card-one">
+                        <div class="flex justify-center px-5">
+                            <img src="./digitalb.png" alt="" class="h-5 my-2">
+                        </div>
+                        <div class="text-center text-3xl font-bold mt-8 mb-10 leading-7">DGA Premium</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="tvModal" class="hidden">
+    <div class="flex justify-center px-12">
+        <div class="relative w-11/12 bg-[#F9F7FB] px-12 shadow-sm rounded-2xl pb-10">
+            <div class="absolute p-5 bg-[#F9F7FB] rotate-45 -top-5 left-[48%]"></div>
+            <div class="flex justify-center py-5">
+                <i id="modalButton" class="z-10 fa-solid fa-xmark fa-xl text-white bg-[#652D90] rounded-full py-4 px-2 cursor-pointer hover:scale-105 transition duration-300"></i>
+            </div>
+            <div class="flex flex-col items-center">
+                <b><h3 id="modalTitle" class="text-center leading-6 text-[#652D90]">tring baze</h3></b>
+                <div id="modalContent" class="mt-2 justify-center text-center">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="flex flex-col items-center mb-5 mt-10">
+    <h1 class="text-[#652D90] text-xl md:text-2xl font-bold text-center">
+        Totali mujor
+    </h1>
+    <div class="flex justify-center w-full mt-5">
+        <div class="flex w-1/2 md:w-1/5 text-xs md:text-sm">
+            <div class="flex-1 text-center bg-[#F5B01A] text-[#652D90] rounded-tl-2xl py-1">
+                Çmim promo
+            </div>
+            <div class="flex-1 text-center bg-[#652D90] text-white rounded-tr-2xl py-1">
+                Çmim bazë
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-center w-full">
+        <div class="flex w-3/4 md:w-1/3 text-2xl md:text-5xl font-bold leading-10">
+            <div class="flex-1 flex justify-center items-center text-[#652D90] py-2 md:py-5 rounded-l-3xl border-2 border-[#652D90]">
+                <span id="promoPrice">0000</span> <span class="font-light leading-6 text-2xl uppercase ml-2">Lekë</span>
+            </div>
+            <div class="flex-1 flex justify-center items-center text-[#AAAAAA] bg-[#D9D9D9] py-2 md:py-5 border-y-2 border-r-2 border-[#652D90] border-l-none rounded-r-3xl">
+                <span id="price">0000</span> <span class="font-light leading-6 text-2xl uppercase ml-2">Lekë</span>
+            </div>
+        </div>
+    </div>
+    <div class="flex text-[#F5B01A] font-bold text-2xl md:text-3xl text-center py-3">
+        Kursimi mujor <div id="savings" class="text-[#652D90] ml-3">000
+        </div>
+    </div>
+
+    <button id="applyButton" class="relative text-2xl w-80 px-4 py-2 text-[#652D90] bg-[#F5B01A] rounded-md cursor-pointer my-10 transition duration-400 hover:scale-105">
+        Apliko Tani
+        <div class="absolute right-4 top-[10px]">
+            <i class="fa-solid fa-angle-down"></i>
+        </div>
+    </button>
+
+    <form id="applicationForm" class="relative nebula-form-bg flex flex-col items-center mt-10 p-5 hidden">
+        <button id="closeButton" class="shadow absolute flex justify-center items-center text-2xl text-[#652D90] bg-[#F5B01A] p-5 rounded-full cursor-pointer transition duration-400 hover:scale-110 -top-7">
+            <i class="fa-solid fa-angle-up"></i>
+        </button>
+        <div class="w-5/6 md:w-1/2">
+            <p class="text-center text-2xl leading-8 my-10">
+                Ju lutemi plotësoni të dhënat më poshtë:
+            </p>
+
+            <div class="my-4 mx-4">
+                <label for="name" className="w-full leading-5 text-sm mb-4 font-normal text-gray-700 text-start">
+                    Emër Mbiemër
+                </label>
+                <input id="name" type="text" class="mr-5 border border-[#E6E6E6] appearance-none px-4 py-2 w-full text-sm focus:outline-none focus:ring-1 focus:ring-[#F4F2F8]" />
+            </div>
+
+            <div class="my-4 mx-4">
+                <label for="email" type="text" className="w-full leading-5 text-sm mb-4 font-normal text-gray-700 text-start">
+                    Email
+                </label>
+                <input id="email" type="email" class="mr-5 border border-[#E6E6E6] appearance-none px-4 py-2 w-full text-sm focus:outline-none focus:ring-1 focus:ring-[#F4F2F8]" />
+            </div>
+
+            <div class="my-4 mx-4">
+                <label for="phone" className="w-full leading-5 text-sm mb-4 font-normal text-gray-700 text-start">
+                    Numri i telefonit
+                </label>
+                <input id="phone" type="tel" class="mr-5 border border-[#E6E6E6] appearance-none px-4 py-2 w-full text-sm focus:outline-none focus:ring-1 focus:ring-[#F4F2F8]" />
+            </div>
+
+            <div class="flex flex-col mx-4 mt-10 mb-12">
+                <button id="sendButton" type="submit" class="text-sm w-full justify-center transition ease-in-out duration-400 bg-[#652D90] text-white rounded-md py-3 px-4">
+                    Dërgo
+                </button>
+                <p id="submittedSuccess" class="hidden text-center text-[#F5B01A] mt-2">Aplikimi u dërgua!</p>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="flex justify-center">
+    <div class="flex flex-col w-11/12 py-8 md:px-12">
+        <h1 class="text-[#652D90] text-2xl font-bold mb-8 text-center md:text-start">
+            Pyetje të Shpeshta
+        </h1>
+
+        <div class="nebula-faq font-medium bg-[#F5F5F5] px-4 md:px-6 py-2 md:py-4 rounded-md mb-2 cursor-pointer hover:scale-105 transition duration-300">
+            <div class="flex items-center">
+                <div class="flex-1 text-xs md:text-base">
+                    1.	Çfarë përfitimesh do të kem unë si klient i ONE Albania nga kombinimi Mix&Max?
+                </div>
+                <i class="fa-regular fa-plus pl-2 nebula-icon"></i>
+            </div>
+            <div class="nebula-answer hidden text-gray-700 mt-1 text-xs md:text-sm">
+                Abonentët që do të bëhen pjesë e shërbimit Mix & Max do të përfitojnë deri në 30%  zbritje në shërbimet fikse One Ultra Fiber Internet /IPTV ose One HomeNet Mix për 24 muaj.  Zbritja e përfituar në pajtimin mujor do të variojë në bazë të shpejtësisë së Internetit dhe/ose paketës TV që do të përzgjidhet nga vetë pajtimtari. Këto përfitime do të jenë të vlefshme vetëm për linjat e reja Internet/HomeNet, IPTV me kontratë 24 mujore.
+            </div>
+        </div>
+
+        <div class="nebula-faq font-medium bg-[#F5F5F5] px-4 md:px-6 py-2 md:py-4 rounded-md mb-2 cursor-pointer hover:scale-105 transition duration-300">
+            <div class="flex items-center">
+                <div class="flex-1 text-xs md:text-base">
+                    2.	Te gjithë klientët One Mobile mund të aktivizojnë Mix&Max?
+                </div>
+                <i class="fa-regular fa-plus pl-2 nebula-icon"></i>
+            </div>
+            <div class="nebula-answer hidden text-gray-700 mt-1 text-xs md:text-sm">
+                Të gjithë abonentët One Mobile me Kontratë  (ekzistues ose të rinj) mund të bëhen pjesë e shërbimit Mix & Max duke aktivizuar një linjë të re One Ultra Fiber Internet /IPTV ose One HomeNet Mix.
+            </div>
+        </div>
+
+        <div class="nebula-faq font-medium bg-[#F5F5F5] px-4 md:px-6 py-2 md:py-4 rounded-md mb-2 cursor-pointer hover:scale-105 transition duration-300">
+            <div class="flex items-center">
+                <div class="flex-1 text-xs md:text-base">
+                    3.	Përfitimet nga kombinimi Mix&Max tek cili sherbim do të aplikohen?
+                </div>
+                <i class="fa-regular fa-plus pl-2 nebula-icon"></i>
+            </div>
+            <div class="nebula-answer hidden text-gray-700 mt-1 text-xs md:text-sm">
+                Përfitimet e shërbimit Mix & Max do të aplikohen  vetëm për shërbimet fikse. Zbritja do të aplikohet vetëm në tarifën mujore të shërbimeve fikse.
+            </div>
+        </div>
+
+        <div class="nebula-faq font-medium bg-[#F5F5F5] px-4 md:px-6 py-2 md:py-4 rounded-md mb-2 cursor-pointer hover:scale-105 transition duration-300">
+            <div class="flex items-center">
+                <div class="flex-1 text-xs md:text-base">
+                    4.	Nëse jam klient ekzistues në shërbimet Mobile të One Albania, çfarë duhet të bëj për të përfituar nga shërbimi Mix&Max?
+                </div>
+                <i class="fa-regular fa-plus pl-2 nebula-icon"></i>
+            </div>
+            <div class="nebula-answer hidden text-gray-700 mt-1 text-xs md:text-sm">
+                Nëse ke shërbimin mobile me kontratë nga One Albania, mjafton të zgjedhësh shërbimin One Ultra Fiber Internet, One Ultra Fiber IPTV ose One HomeNet Mix për shtëpinë tënde dhe përfito sa më shumë nga kombinimet.
+            </div>
+        </div>
+
+        <div class="nebula-faq font-medium bg-[#F5F5F5] px-4 md:px-6 py-2 md:py-4 rounded-md mb-2 cursor-pointer hover:scale-105 transition duration-300">
+            <div class="flex items-center">
+                <div class="flex-1 text-xs md:text-base">
+                    5.	Nëse jam klient ekzistues në shërbimet fikse, mund te bëhem pjesë e shërbimit Mix&Max?
+                </div>
+                <i class="fa-regular fa-plus pl-2 nebula-icon"></i>
+            </div>
+            <div class="nebula-answer hidden text-gray-700 mt-1 text-xs md:text-sm">
+                Për abonentët ekzistues në shërbimet fikse, One ka oferta të dedikura. Mund të paraqiteni në dyqanin më të afërt për të zbuluar ofertën tuaj.
+            </div>
+        </div>
+
+        <div class="nebula-faq font-medium bg-[#F5F5F5] px-4 md:px-6 py-2 md:py-4 rounded-md mb-2 cursor-pointer hover:scale-105 transition duration-300">
+            <div class="flex items-center">
+                <div class="flex-1 text-xs md:text-base">
+                    6.	Një abonent Mobile në planet tarifore me kontratë, mund të jetë pjesë e më shumë se një kombinimi Mix&Max?
+                </div>
+                <i class="fa-regular fa-plus pl-2 nebula-icon"></i>
+            </div>
+            <div class="nebula-answer hidden text-gray-700 mt-1 text-xs md:text-sm">
+                Një abonent mobile, në planet tarifore me kontratë, mund të jetë pjesë e vetëm një kombinimi me linjën e re One Ultra Fiber Internet, One Ultra Fiber IPTV ose One HomeNet Mix.
+            </div>
+        </div>
+
+        <div class="nebula-faq font-medium bg-[#F5F5F5] px-4 md:px-6 py-2 md:py-4 rounded-md mb-2 cursor-pointer hover:scale-105 transition duration-300">
+            <div class="flex items-center">
+                <div class="flex-1 text-xs md:text-base">
+                    7.	Nëse një nga familjarët ka numër mobile One Albania me kontratë dhe unë marr shërbimin Fiks nga One, mund të përfitoj nga kombinimi Mix&Max?
+                </div>
+                <i class="fa-regular fa-plus pl-2 nebula-icon"></i>
+            </div>
+            <div class="nebula-answer hidden text-gray-700 mt-1 text-xs md:text-sm">
+                Nga kombinimi Mix&Max mund të përfitoni vetëm nëse dy shërbimet mobile dhe fiks do të jenë të aktivizua e në të njëjtin emër. Secili nga familajrët mund të krijojë kombinimin e tij Mix & Max.
+            </div>
+        </div>
+
+        <div class="nebula-faq font-medium bg-[#F5F5F5] px-4 md:px-6 py-2 md:py-4 rounded-md mb-2 cursor-pointer hover:scale-105 transition duration-300">
+            <div class="flex items-center">
+                <div class="flex-1 text-xs md:text-base">
+                    8.	Nëse unë nuk kam një numër One Mobile me kontratë si duhet të veproj për të përfituar nga kombinimi Mix &Max?
+                </div>
+                <i class="fa-regular fa-plus pl-2 nebula-icon"></i>
+            </div>
+            <div class="nebula-answer hidden text-gray-700 mt-1 text-xs md:text-sm">
+                Kombinimi Mix&Max është i vlefshëm për klientët e rinj dhe ekzistues One Mobile me kontratë. Drejtohu në dyqanin më të afërt One Albania për të krijuar sherbimin tënd Mix & Max duke kombinuar planin mobile që të përshtatet dhe shërbimin fiks për shtepin tënde.
+            </div>
+        </div>
+
+        <div class="nebula-faq font-medium bg-[#F5F5F5] px-4 md:px-6 py-2 md:py-4 rounded-md mb-2 cursor-pointer hover:scale-105 transition duration-300">
+            <div class="flex items-center">
+                <div class="flex-1 text-xs md:text-base">
+                    9.	Nëse mbyllet njëra nga linjat : Mobile apo ajo Fikse, çfarë ndodh me kombinimin Mix & Max?
+                </div>
+                <i class="fa-regular fa-plus pl-2 nebula-icon"></i>
+            </div>
+            <div class="nebula-answer hidden text-gray-700 mt-1 text-xs md:text-sm">
+                Nëse mbyllet vetëm numri mobile, nuk do të mund të përfitoni zbritjen në shërbimet fikse One Ultra Fiber Internet, One Ultra Fiber IPTV ose One HomeNet Mix .
+                Nëse mbyllet vetëm shërbimi fiks në benefitet e numrit mobile nuk ndodh asnjë ndryshim.
+
+            </div>
+        </div>
+
+        <div class="nebula-faq font-medium bg-[#F5F5F5] px-4 md:px-6 py-2 md:py-4 rounded-md mb-2 cursor-pointer hover:scale-105 transition duration-300">
+            <div class="flex items-center">
+                <div class="flex-1 text-xs md:text-base">
+                    10.	Për shërbimet Mobile dhe Fix do të kem fatura të ndryshme?
+                </div>
+                <i class="fa-regular fa-plus pl-2 nebula-icon"></i>
+            </div>
+            <div class="nebula-answer hidden text-gray-700 mt-1 text-xs md:text-sm">
+                Pajtimtarët do të marrin një faturë të vetme për të gjitha shërbimet mobile dhe fikse.
+            </div>
+        </div>
+
+        <div class="nebula-faq font-medium bg-[#F5F5F5] px-4 md:px-6 py-2 md:py-4 rounded-md mb-2 cursor-pointer hover:scale-105 transition duration-300">
+            <div class="flex items-center">
+                <div class="flex-1 text-xs md:text-base">
+                    11.	Në cilat paketa për shërbimin celular apo fiks e përfitoj këtë kombinim?
+                </div>
+                <i class="fa-regular fa-plus pl-2 nebula-icon"></i>
+            </div>
+            <div class="nebula-answer hidden text-gray-700 mt-1 text-xs md:text-sm">
+                Në këtë link www.XXXXXXX, mund të zbuloni tarifat për përfitimet nga Mix &Max.
+            </div>
+        </div>
+
+        <div class="nebula-faq font-medium bg-[#F5F5F5] px-4 md:px-6 py-2 md:py-4 rounded-md mb-2 cursor-pointer hover:scale-105 transition duration-300">
+            <div class="flex items-center">
+                <div class="flex-1 text-xs md:text-base">
+                    12.	A është Mix&Max një produkt i përkohshëm apo do të vijojë edhe në të ardhmen? Nëse po, sa kohë do të jetë i vlefshëm?
+                </div>
+                <i class="fa-regular fa-plus pl-2 nebula-icon"></i>
+            </div>
+            <div class="nebula-answer hidden text-gray-700 mt-1 text-xs md:text-sm">
+                Ky produkt ka një afat të përcaktuar, ju do t’i merrni përfitimet për 24 muaj të kontratës së shërbimit tuaj.
+            </div>
+        </div>
+
+        <div class="nebula-faq font-medium bg-[#F5F5F5] px-4 md:px-6 py-2 md:py-4 rounded-md mb-2 cursor-pointer hover:scale-105 transition duration-300">
+            <div class="flex items-center">
+                <div class="flex-1 text-xs md:text-base">
+                    13.	Nëse jam klient me plan tarifor biznesi, a përfitoj nga paketat e kombinuara?
+                </div>
+                <i class="fa-regular fa-plus pl-2 nebula-icon"></i>
+            </div>
+            <div class="nebula-answer hidden text-gray-700 mt-1 text-xs md:text-sm">
+                Kombinimi Mix&Max është i vlefshëm vetëm për klientët Individë dhe Familjarë.
+            </div>
+        </div>
+
+        <div class="nebula-faq font-medium bg-[#F5F5F5] px-4 md:px-6 py-2 md:py-4 rounded-md mb-2 cursor-pointer hover:scale-105 transition duration-300">
+            <div class="flex items-center">
+                <div class="flex-1 text-xs md:text-base">
+                    14.	Kujt duhet t’i drejtohem nëse kam nevojë për zgjidhje problemi, apo defekt teknik, në rastin e këtij kombinimi?
+                </div>
+                <i class="fa-regular fa-plus pl-2 nebula-icon"></i>
+            </div>
+            <div class="nebula-answer hidden text-gray-700 mt-1 text-xs md:text-sm">
+                Për çdo paqartësi, vizito dyqanet ONE Albania, faqen tonë zyrtare www.one.al ku ofrohet suport me chat online, merr suport në Whatsapp në 067 2000123 / 068 8000142, ose telefono Shërbimin e Klientit në 123.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="flex justify-around footer text-[#652D90] text-2xl">
+    <div class="footer-column">
+        <h3>One Albania</h3>
+        <ul>
+            <li><a href="https://www.one.al/Store_Locator_Test">Dyqanet</a></li>
+            <li><a href="https://www.one.al/informacione-per-konsumatoret">Njoftime për Konsumatorët</a></li>
+            <li><a href="https://www.one.al/njoftime-prokurimi">Njoftime Prokurimi</a></li>
+            <li><a href="#">Karriera</a></li>
+        </ul>
+    </div>
+
+    <div class="footer-column">
+        <h3>Packages & Plans</h3>
+        <ul>
+            <li><a href="#">Paketat One Unlimited</a></li>
+            <li><a href="#"></a>One Roaming</li>
+        </ul>
+    </div>
+
+    <div class="footer-column">
+        <h3>Profilet</h3>
+        <ul>
+            <li><a href="https://www.one.al/company">Kompania</a></li>
+            <li><a href="https://www.one.al/business">Biznesi</a></li>
+        </ul>
+    </div>
+
+    <div class="footer-column">
+        <h3>Të përgjithshme</h3>
+        <ul>
+            <li><a href="https://www.one.al/CompanyKOMPANIAInformacione_Ligjore/Kodi_i_privatesise">Kodi i privatësisë</a></li>
+            <li><a href="https://www.one.al/CompanyKOMPANIAInformacione_Ligjore/Termat_dhe_Kushtet">Terma & Kushte</a></li>
+            <li><a href="https://www.one.al/Terma_dhe_Kushte_My_One">Terma & Kushte My One</a></li>
+            <li><a href="https://www.one.al/Menyrat_e_pageses">Mënyrat e pagesës</a></li>
+        </ul>
+    </div>
+
+    <div class="footer-column">
+        <h3>Na ndiq</h3>
+        <ul>
+            <li><a href="http://www.facebook.com/one.albania">Facebook</a></li>
+            <li><a href="https://instagram.com/one.telecommunications?igshid=1xq52qe4z6a22">Instagram</a></li>
+            <li><a href="https://www.linkedin.com/company/one-albania/mycompany/">Linkedin</a></li>
+            <li><a href="https://www.youtube.com/channel/UCg_sbu8sajDlkeURlipd9_A/">YouTube</a></li>
+            <li><a href="https://www.tiktok.com/@onealbania">Tik Tok</a></li>
+        </ul>
+    </div>
+    <div class="copyright">
+        <p>Copyright © 2022 All Rights Reserved.</p>
+    
+        <div class="social-icons">
+            <a href="http://www.facebook.com/one.albania"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.youtube.com/channel/UCg_sbu8sajDlkeURlipd9_A/"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.linkedin.com/company/one-albania/mycompany/"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    
+    </div>
+</div>
+</body>
+</html>
